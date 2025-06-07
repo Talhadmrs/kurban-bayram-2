@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bayram Kutlaması</title>
+  <style>
+    body {
+      display: flex;
+      margin: 0;
+      padding: 0;
+      background-image: linear-gradient(rgb(58, 55, 55), rgb(237, 234, 229));
+      height: 100vh;
+      cursor: url("knife.png") 10 10, auto;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    #sheep {
+      font-size: 200px;
+      transition: transform 0.3s ease;
+    }
+
+    #sheep:hover {
+      transform: scale(1.1);
+    }
+
+    .meat {
+      position: absolute;
+      font-size: 40px;
+      pointer-events: none;
+      animation: pop 1s ease;
+    }
+
+    @keyframes pop {
+      0% {
+        transform: scale(0.3);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .bayram-mesaji {
+      position: absolute;
+      transform: translateX(-50%);
+      font-size: 50px;
+      font-weight: bold;
+      color: #c0392b;
+      padding: 10px 20px;
+      animation: fadeIn 2s ease forwards;
+      opacity: 0;
+      z-index: 1000;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-70px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <audio id="sheepSound" src="cow-mooing-343423.mp3" preload="auto"></audio>
+    <div id="sheep">🐄</div>
+  </div>
+
+  <script>
+    const sheep = document.getElementById("sheep");
+    const sheepSound = document.getElementById("sheepSound");
+
+    sheep.addEventListener("click", () => {
+      sheepSound.currentTime = 0;
+      sheepSound.play();
+
+      const rect = sheep.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      sheep.style.display = "none";
+
+      for (let i = 0; i < 80; i++) {
+        const meat = document.createElement("div");
+        meat.textContent = "🥩";
+        meat.classList.add("meat");
+
+        const offsetX = (Math.random() - 0.5) * 300;
+        const offsetY = (Math.random() - 0.5) * 180;
+
+        meat.style.left = `${centerX + offsetX}px`;
+        meat.style.top = `${centerY + offsetY}px`;
+
+        document.body.appendChild(meat);
+      }
+
+      setTimeout(() => {
+        const message = document.createElement("div");
+        message.textContent = "Bayramınız Mübarek Olsun!🎉";
+        message.classList.add("bayram-mesaji");
+
+        message.style.left = `${centerX}px`;
+        message.style.top = `${centerY - 80}px`;
+
+        document.body.appendChild(message);
+      }, 500);
+    });
+  </script>
+</body>
+</html>
